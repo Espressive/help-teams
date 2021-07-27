@@ -9,8 +9,7 @@ class MyDocument extends Document {
     render(): ReactElement {
         return (
             <Html>
-                <Head>
-                    <title/></Head>
+                <Head />
                 <body>
                 <Main/>
                 <NextScript/>
