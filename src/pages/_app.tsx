@@ -70,7 +70,7 @@ function MyApp({Component, pageProps}: AppProps) {
     }, [])
 
     return (
-        <Provider theme={theme} styles={{paddingTop: '1em', backgroundColor: 'transparent'}}>
+        <Provider theme={theme} styles={{paddingTop: '1em', backgroundColor: 'transparent !important'}}>
             <Layout description="Barista for Microsoft Teams" pageTitle="Barista for Microsoft Teams">
                 <MDXProvider components={components}>
                     <Component {...pageProps} />
