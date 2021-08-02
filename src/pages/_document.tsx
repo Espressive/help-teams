@@ -8,7 +8,7 @@ class MyDocument extends Document {
 
     render(): ReactElement {
         return (
-            <Html>
+            <Html lang='en-US'>
                 <Head />
                 <body>
                 <Main/>

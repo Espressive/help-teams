@@ -4,11 +4,33 @@ import "sanitize.css/assets.css";
 import "sanitize.css/typography.css";
 import "sanitize.css/page.css";
 
-import type {AppProps} from 'next/app'
-import Layout from "../components/Layout";
 import {Provider, teamsTheme, teamsDarkV2Theme, teamsHighContrastTheme, ThemePrepared} from '@fluentui/react-northstar';
+import {MDXProvider} from '@mdx-js/react'
+import type {AppProps} from 'next/app'
+import Image, {ImageProps} from 'next/image'
 import {useEffect, useState} from "react";
+
+import Layout from "../components/Layout";
 import {checkInTeams} from "../utils";
+
+const MIN_SIZE = 200;
+
+/**
+ * Custom markdown components
+ */
+const components = {
+    img: (props: ImageProps) => {
+        const normalized = {...props};
+
+        if (!props.width) {
+            normalized.width = props.height ? props.height : MIN_SIZE;
+        }
+        if (!props.height) {
+            normalized.height = props.width ? props.width : MIN_SIZE;
+        }
+        return <Image {...normalized} objectFit={'contain'}/>
+    },
+}
 
 function MyApp({Component, pageProps}: AppProps) {
 
@@ -50,7 +72,9 @@ function MyApp({Component, pageProps}: AppProps) {
     return (
         <Provider theme={theme} styles={{paddingTop: '1em', backgroundColor: 'transparent'}}>
             <Layout description="Barista for Microsoft Teams" pageTitle="Barista for Microsoft Teams">
-                <Component {...pageProps} />
+                <MDXProvider components={components}>
+                    <Component {...pageProps} />
+                </MDXProvider>
             </Layout>
         </Provider>
     )
