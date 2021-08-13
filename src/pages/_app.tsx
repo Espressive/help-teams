@@ -7,29 +7,19 @@ import "sanitize.css/page.css";
 import {Provider, teamsTheme, teamsDarkV2Theme, teamsHighContrastTheme, ThemePrepared} from '@fluentui/react-northstar';
 import {MDXProvider} from '@mdx-js/react'
 import type {AppProps} from 'next/app'
-import Image, {ImageProps} from 'next/image'
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import Layout from "../components/Layout";
 import {checkInTeams} from "../utils";
-
-const MIN_SIZE = 200;
+import ExternalLink from "../components/ExternalLink";
+import BaseImage from "../components/BaseImage";
 
 /**
  * Custom markdown components
  */
 const components = {
-    img: (props: ImageProps) => {
-        const normalized = {...props};
-
-        if (!props.width) {
-            normalized.width = props.height ? props.height : MIN_SIZE;
-        }
-        if (!props.height) {
-            normalized.height = props.width ? props.width : MIN_SIZE;
-        }
-        return <Image {...normalized} objectFit={'contain'}/>
-    },
+    a: ExternalLink,
+    img: BaseImage,
 }
 
 function MyApp({Component, pageProps}: AppProps) {
