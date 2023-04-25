@@ -8,7 +8,7 @@ interface LayoutProps {
     pageTitle: string,
 }
 
-export default function Layout({children, pageTitle, description}: LayoutProps) {
+export default function Layout({children, pageTitle, description }: LayoutProps) {
     return (
         <>
             <Head>
@@ -17,7 +17,7 @@ export default function Layout({children, pageTitle, description}: LayoutProps) 
                 <meta name="Description" content={description}/>
                 <title>{pageTitle}</title>
             </Head>
-            <Header/>
+            <Header text={pageTitle}/>
             <main>
                 {children}
             </main>

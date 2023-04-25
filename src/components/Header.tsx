@@ -1,7 +1,7 @@
-export default function Header() {
+export default function Header({text}: { text: string }) {
     return (
         <header>
-            <h1>Barista for Microsoft Teams</h1>
+            <h1>{text}</h1>
         </header>
     );
 }

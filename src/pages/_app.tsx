@@ -7,7 +7,7 @@ import "sanitize.css/page.css";
 import {Provider, teamsTheme, teamsDarkV2Theme, teamsHighContrastTheme, ThemePrepared} from '@fluentui/react-northstar';
 import {MDXProvider} from '@mdx-js/react'
 import type {AppProps} from 'next/app'
-import router from 'next/router';
+import {useRouter} from 'next/router';
 import React, {useEffect, useState} from "react";
 
 import Layout from "../components/Layout";
@@ -15,6 +15,7 @@ import { checkInTeams } from "../utils";
 import ExternalLink from "../components/ExternalLink";
 import BaseImage from "../components/BaseImage";
 import {app, version} from "@microsoft/teams-js";
+import {defaultBotName} from "../utils/constants";
 
 const localeRouteMap : {[key: string]: string} = {
     'en': 'en',
@@ -36,6 +37,9 @@ const components = {
 function MyApp({Component, pageProps}: AppProps) {
     const [locale, setLocale] = useState<string | undefined>(undefined);
     const [theme, setTheme] = useState<ThemePrepared>(teamsTheme);
+
+    const router = useRouter();
+    const botName = router.query.botName ?? '';
 
     useEffect(() => {
         const themeChangeHandler = (theme: string | undefined) => {
@@ -65,7 +69,10 @@ function MyApp({Component, pageProps}: AppProps) {
             const locale = appInfo.locale?.split('-')[0] ?? 'en';
 
             if (locale !== 'en' && localeRouteMap[locale]) {
-                router.push(`/${localeRouteMap[locale]}`);
+                router.push({
+                    pathname: `/${localeRouteMap[locale]}`,
+                    query: { botName }
+                })
             }
         };
 
@@ -74,12 +81,12 @@ function MyApp({Component, pageProps}: AppProps) {
             loadTeamsSdk()
         }
 
-    }, [])
+    }, [botName])
 
     return (
         <Provider theme={theme} styles={{paddingTop: '1em', backgroundColor: 'transparent !important'}}>
-            <Layout description={`Barista for Microsoft Teams ${locale ?? 'undefined'}`}
-                    pageTitle="Barista for Microsoft Teams">
+            <Layout description={`${botName || defaultBotName} for Microsoft Teams ${locale ?? 'undefined'}`}
+                    pageTitle={`${botName || defaultBotName} for Microsoft Teams`}>
                 <MDXProvider components={components}>
                     <Component {...pageProps} />
                 </MDXProvider>
